@@ -1,31 +1,19 @@
-name: Lint Code
+name: Super Linter
 
 on:
   push:
-    branches-ignore:
-      - "master"
-      - "main"
   pull_request:
-    branches-ignore:
-      - "master"
-      - "main"
 
 jobs:
-  lint:
-    name: Lint
+  super-linter:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Super-Linter
+      - name: Install Super Linter
         uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: "development"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Super-Linter
+      - name: Run Super Linter
         run: |
-          /usr/bin/find . -type f -regex '.*\.\(bash\|csh\|sh\|bat\|bin\|coffee\|cpp\|css\|erb\|erl\|go\|groovy\|html\|java\|js\|json\|jsx\|less\|lua\|markdown\|md\|mustache\|perl\|php\|pl\|properties\|py\|rb\|sass\|scala\|scss\|sh\|sql\|ts\|tsx\|toml\|xml\|yaml\|yml\)$' | xargs /usr/bin/docker-entrypoint.sh
+          super-linter --fail-on-errors --github-token ${{ secrets.GITHUB_TOKEN }}
