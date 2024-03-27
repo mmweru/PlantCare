@@ -84,40 +84,10 @@ fun LogoText(){
                     .offset(y = 190.dp)
                     .height(101.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.fruits2),
-                    contentDescription = "image description",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .width(101.dp)
-                        .height(101.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.fruits2),
-                    contentDescription = "image description",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .width(101.dp)
-                        .height(101.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.fruits2),
-                    contentDescription = "image description",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .width(101.dp)
-                        .height(101.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.fruits2),
-                    contentDescription = "image description",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .width(101.dp)
-                        .height(101.dp)
-                )
-
-
+                MyImage()
+                MyImage()
+                MyImage()
+                MyImage()
             }
         }
     }
@@ -143,9 +113,9 @@ fun Lottie(){
     }
     Box (
         modifier = Modifier
-            .fillMaxSize() .padding(bottom = 140.dp),
+            .fillMaxSize()
+            .padding(bottom = 140.dp),
         Alignment.Center
-        //.background(color = Color(0xFF0D6446))
     ) {
         LottieAnimation(
             modifier = Modifier
@@ -154,7 +124,18 @@ fun Lottie(){
             composition = composition,
             alignment = Alignment.Center,
             restartOnPlay = true
-//            progress = { progress }
         )
     }
+}
+
+@Composable
+fun MyImage(){
+    Image(
+        painter = painterResource(id = R.drawable.fruits2),
+        contentDescription = "image description",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .width(101.dp)
+            .height(101.dp)
+    )
 }
