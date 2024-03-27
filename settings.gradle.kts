@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "PlantCare AI"
 include(":app")
- 
