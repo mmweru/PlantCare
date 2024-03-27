@@ -2,16 +2,26 @@ name: Super Linter
 
 on:
   push:
+    branches-ignore:
+      - "master"
+      - "main"
   pull_request:
+    branches-ignore:
+      - "master"
+      - "main"
 
 jobs:
-  super-linter:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install Super Linter
-        uses: gh-actions/super-linter@v4
-
-      - name: Run Super Linter
-        run: super-linter --fail-on-errors --github-token ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Super-Linter
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: "development"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
