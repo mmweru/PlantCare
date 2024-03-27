@@ -1,4 +1,4 @@
-name: Super Linter
+name: Lint Code
 
 on:
   push:
@@ -25,3 +25,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "development"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Super-Linter
+        run: |
+          /usr/bin/find . -type f -regex '.*\.\(bash\|csh\|sh\|bat\|bin\|coffee\|cpp\|css\|erb\|erl\|go\|groovy\|html\|java\|js\|json\|jsx\|less\|lua\|markdown\|md\|mustache\|perl\|php\|pl\|properties\|py\|rb\|sass\|scala\|scss\|sh\|sql\|ts\|tsx\|toml\|xml\|yaml\|yml\)$' | xargs /usr/bin/docker-entrypoint.sh
