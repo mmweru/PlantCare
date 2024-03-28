@@ -18,30 +18,49 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.plantcareai.R
+import kotlinx.coroutines.delay
 
-@Preview
+@Composable
+fun AnimatedSplash(navController: NavHostController){
+    var startAnimation by remember{
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = true){
+        startAnimation = true
+        delay(5500)
+        navController.popBackStack()
+        navController.navigate("welcome")
+    }
+    Splash()
+
+}
+
 @Composable
 fun Splash() {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .semantics { contentDescription = "Box" },
         contentAlignment = Alignment.Center
     ) {
         LogoText()
@@ -100,7 +119,8 @@ fun Lottie() {
         isPlaying.value = progress == 0f
     }
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .semantics { contentDescription = "LottieAnimation" }, // Set content description here
         contentAlignment = Alignment.Center
     ) {
         LottieAnimation(
@@ -111,6 +131,7 @@ fun Lottie() {
         )
     }
 }
+
 
 @Composable
 fun MyImage() {

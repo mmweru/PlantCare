@@ -61,6 +61,8 @@ dependencies {
     //Material3
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0")
+    implementation ("androidx.compose.material:material:1.6.2")
+
 
     //Lottie Animation
     implementation("com.airbnb.android:lottie-compose:6.0.0")
@@ -68,11 +70,22 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation ("io.insert-koin:koin-core:3.2.0")// or latest version
     implementation ("io.insert-koin:koin-android:3.2.0")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation("androidx.compose.ui:ui-test-junit4-android:1.6.2@aar")
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+
+//    testImplementation(libs.junit)
+//    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation("androidx.navigation:navigation-testing:2.4.1")
+    testImplementation("io.mockk:mockk:1.13.0")
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+//    androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.0-alpha05")
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
