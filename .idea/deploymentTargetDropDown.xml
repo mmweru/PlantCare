@@ -8,26 +8,13 @@
       <entry key="AnimationSplashTest">
         <State />
       </entry>
-      <entry key="AuthenticationScreenTest">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="RF8W70QBJMJ" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-27T23:39:41.346953200Z" />
-        </State>
-      </entry>
       <entry key="ShowScreenTest">
         <State />
       </entry>
       <entry key="ShowScreenTest (1)">
+        <State />
+      </entry>
+      <entry key="SplashScreenTest">
         <State />
       </entry>
       <entry key="TypingTextTest">

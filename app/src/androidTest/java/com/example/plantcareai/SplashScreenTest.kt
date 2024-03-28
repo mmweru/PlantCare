@@ -37,17 +37,16 @@ class SplashScreenTest {
         composeTestRule.onNodeWithContentDescription("Box")
             .assertExists()
 
-        // Check if the LogoText is present in the composition
+        // Check if the com.example.plantcareai.authentication.LogoText is present in the composition
         composeTestRule.onNodeWithText("PLANTCARE AI")
             .assertExists()
 
-        // Check if the Lottie animation is present in the composition
+        // Check if the com.example.plantcareai.authentication.Lottie animation is present in the composition
         composeTestRule.onNodeWithContentDescription("LottieAnimation")
             .assertExists()
 
         // Wait for the animation to complete
         composeTestRule.waitForIdle()
-
     }
 
     @Test
@@ -59,7 +58,6 @@ class SplashScreenTest {
         // Check if the Box is present in the composition
         composeTestRule.onNodeWithContentDescription("Box")
             .assertExists()
-
     }
 
     @Test
@@ -68,10 +66,9 @@ class SplashScreenTest {
             LogoText()
         }
 
-        // Check if the LogoText is present in the composition
+        // Check if the com.example.plantcareai.authentication.LogoText is present in the composition
         composeTestRule.onNodeWithText("PLANTCARE AI")
             .assertExists()
-
     }
 
     @Test
@@ -80,9 +77,8 @@ class SplashScreenTest {
             Lottie()
         }
 
-        // Check if the Lottie animation is present in the composition
+        // Check if the com.example.plantcareai.authentication.Lottie animation is present in the composition
         composeTestRule.onNodeWithContentDescription("LottieAnimation")
             .assertExists()
-
     }
 }

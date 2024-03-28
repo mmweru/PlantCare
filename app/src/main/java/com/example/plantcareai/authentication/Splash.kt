@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -34,7 +33,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -54,7 +52,7 @@ fun AnimatedSplash(navController: NavHostController){
         targetValue = if(startAnimation) 1f else 0f,
         animationSpec= tween(
             durationMillis = 4500
-        )
+        ), label = ""
     )
     LaunchedEffect(key1 = true){
         startAnimation = true
@@ -62,7 +60,7 @@ fun AnimatedSplash(navController: NavHostController){
         navController.popBackStack()
         navController.navigate("welcome")
     }
-    Splash(alpha = alphaAnim.value, modifier = Modifier.semantics { contentDescription = "Splash" })
+    Splash(alpha = alphaAnim.value, modifier = Modifier.semantics { contentDescription = "com.example.plantcareai.authentication.Splash" })
 
 }
 

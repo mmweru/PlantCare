@@ -1,6 +1,3 @@
-package com.example.plantcareai.authentication
-
-import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -40,7 +37,6 @@ import com.example.plantcareai.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@SuppressLint("ConflictingOnColor")
 @Composable
 fun MyApplicationTheme(content: @Composable () -> Unit) {
     MaterialTheme(
