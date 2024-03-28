@@ -1,7 +1,5 @@
 package com.example.plantcareai.authentication
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -48,24 +46,18 @@ fun AnimatedSplash(navController: NavHostController){
     var startAnimation by remember{
         mutableStateOf(false)
     }
-    val alphaAnim = animateFloatAsState(
-        targetValue = if(startAnimation) 1f else 0f,
-        animationSpec= tween(
-            durationMillis = 4500
-        ), label = ""
-    )
     LaunchedEffect(key1 = true){
         startAnimation = true
         delay(5500)
         navController.popBackStack()
         navController.navigate("welcome")
     }
-    Splash(alpha = alphaAnim.value, modifier = Modifier.semantics { contentDescription = "com.example.plantcareai.authentication.Splash" })
+    Splash()
 
 }
 
 @Composable
-fun Splash(alpha: Float, modifier: Modifier) {
+fun Splash() {
     Box(
         modifier = Modifier.fillMaxSize()
             .semantics { contentDescription = "Box" },

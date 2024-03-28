@@ -1,6 +1,6 @@
 package com.example.plantcareai
 
-import PreviewShowScreen
+import com.example.plantcareai.authentication.PreviewShowScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

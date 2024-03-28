@@ -1,19 +1,25 @@
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+package com.example.plantcareai.authentication
+
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.MaterialTheme
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.MaterialTheme.typography
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.darkColors
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.lightColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,10 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -37,6 +40,7 @@ import com.example.plantcareai.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("ConflictingOnColor")
 @Composable
 fun MyApplicationTheme(content: @Composable () -> Unit) {
     MaterialTheme(
@@ -67,7 +71,7 @@ fun TypingText(text: String, modifier: Modifier = Modifier) {
             }
         }
     }
-    val my_font = FontFamily(Font(R.font.istok_bold_italic))
+    val myFont = FontFamily(Font(R.font.istok_bold_italic))
 
     Text(
         text = typedText,
@@ -75,12 +79,12 @@ fun TypingText(text: String, modifier: Modifier = Modifier) {
         color = Color.White,
         fontSize = 26.sp,
         textAlign = TextAlign.Center,
-        fontFamily = my_font
+        fontFamily = myFont
     )
 }
 
 @Composable
-fun ShowScreen(alpha: Float) {
+fun ShowScreen() {
     val context = LocalContext.current
     val isDarkTheme = isSystemInDarkTheme(context)
     val images = listOf(
@@ -88,7 +92,7 @@ fun ShowScreen(alpha: Float) {
         R.drawable.page1,
         R.drawable.page2
     )
-    var pageIndex by remember { mutableStateOf(0) }
+    var pageIndex by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -157,12 +161,6 @@ fun PreviewShowScreen(navController: NavHostController){
     var startAnimation by remember{
         mutableStateOf(false)
     }
-    val alphaAnim = animateFloatAsState(
-        targetValue = if(startAnimation) 1f else 0f,
-        animationSpec= tween(
-            durationMillis = 8500
-        )
-    )
     LaunchedEffect(key1 = true){
         startAnimation = true
         delay(10500)
@@ -170,7 +168,7 @@ fun PreviewShowScreen(navController: NavHostController){
 //        navController.navigate("log_in")
     }
     MyApplicationTheme {
-        ShowScreen(alpha = alphaAnim.value)
+        ShowScreen()
 
     }
 }

@@ -1,7 +1,6 @@
 package com.example.plantcareai
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -52,7 +51,7 @@ class SplashScreenTest {
     @Test
     fun splashBoxTest() {
         composeTestRule.setContent {
-            Splash(alpha = 1f, modifier = Modifier)
+            Splash()
         }
 
         // Check if the Box is present in the composition
