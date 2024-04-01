@@ -41,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -107,9 +108,7 @@ fun EmailInputBox(email: String, onEmailChange: (String) -> Unit) {
             Icon(
                 imageVector = Icons.Outlined.AccountBox,
                 contentDescription = "Password Icon",
-                tint = Color(
-                    0xFF5DB075
-                )
+                tint = Color(0xFF5DB075)
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -117,7 +116,8 @@ fun EmailInputBox(email: String, onEmailChange: (String) -> Unit) {
             focusedBorderColor = Color.Black,
             unfocusedBorderColor = Color.Black
         ),
-        modifier = Modifier.fillMaxWidth(0.9f)
+        modifier = Modifier.fillMaxWidth(0.9f)  .testTag("MyEmail") // Add test tag here
+
 
     )
 }
@@ -202,7 +202,8 @@ fun RememberMeCheckbox(
                 checkedColor = Color(
                     0xFF5DB075
                 )
-            )
+            ),
+            modifier = Modifier.testTag("Check")
         )
         Text(
             text = "Remember me",

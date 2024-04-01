@@ -2,10 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AnimatedSplashTest">
-        <State />
-      </entry>
-      <entry key="AnimationSplashTest">
+      <entry key="LogInScreenTest">
         <State />
       </entry>
       <entry key="ShowScreenTest">
@@ -14,16 +11,16 @@
       <entry key="ShowScreenTest (1)">
         <State />
       </entry>
-      <entry key="SplashScreenTest">
-        <State />
-      </entry>
-      <entry key="TypingTextTest">
-        <State />
-      </entry>
-      <entry key="animatedSplashTest()">
+      <entry key="SignUp">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testEmailInputBox_initialValue()">
+        <State />
+      </entry>
+      <entry key="testEmailInputBox_textChange()">
         <State />
       </entry>
     </value>
