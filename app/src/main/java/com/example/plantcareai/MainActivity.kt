@@ -1,6 +1,9 @@
 package com.example.plantcareai
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.location.Location
 import com.example.plantcareai.authentication.PreviewShowScreen
 import android.os.Bundle
 import android.widget.Toast
@@ -10,15 +13,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.plantcareai.AiCamera.Camera
 import com.example.plantcareai.authentication.AnimatedSplash
 import com.example.plantcareai.authentication.LogIn
 import com.example.plantcareai.authentication.SignUp
@@ -41,6 +48,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("ComposableDestinationInComposeScope", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +68,9 @@ class MainActivity : ComponentActivity() {
 
                     val state by viewModel.state.collectAsStateWithLifecycle()
                     LaunchedEffect(key1 = Unit){
-//                        if(googleAuthUiClient.getSignedInUser() != null){
-//                            navController.navigate("camera")
-//                        }
+                        if(googleAuthUiClient.getSignedInUser() != null){
+                            navController.navigate("Login")
+                        }
                     }
 
 
@@ -100,9 +108,9 @@ class MainActivity : ComponentActivity() {
                     val state by viewModel.state.collectAsStateWithLifecycle()
 
                     LaunchedEffect(key1 = Unit) {
-//                        if (googleAuthUiClient.getSignedInUser() != null) {
-//                            navController.navigate("camera")
-//                        }
+                        if (googleAuthUiClient.getSignedInUser() != null) {
+                            navController.navigate("camera")
+                        }
                     }
 
                     val launcher = rememberLauncherForActivityResult(
@@ -134,12 +142,33 @@ class MainActivity : ComponentActivity() {
                         navController = navController
                     )
                 }
-
-
+                composable("camera") {
+                    if (!hasRequiredPermissions()) {
+                        ActivityCompat.requestPermissions(
+                            this@MainActivity, CAMERAX_PERMISSIONS, 0
+                        )
+                    }
+                    Camera()
+                }
 
                 }
 
             }
 
         }
+    private fun hasRequiredPermissions(): Boolean {
+        return CAMERAX_PERMISSIONS.all {
+            ContextCompat.checkSelfPermission(
+                applicationContext,
+                it
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+    companion object {
+        private val CAMERAX_PERMISSIONS = arrayOf(
+            Manifest.permission.CAMERA
+        )
+    }
+
+
 }

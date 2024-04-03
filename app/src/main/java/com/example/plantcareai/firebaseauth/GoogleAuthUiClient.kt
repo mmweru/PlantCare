@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.service.autofill.UserData
+import com.example.plantcareai.BuildConfig
 import com.example.plantcareai.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -75,13 +76,14 @@ class GoogleAuthUiClient(
             profilePictureUrl = photoUrl?.toString()
         )
     }
+    val apikey = BuildConfig.API_KEY
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.Builder()
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId(context.getString(R.string.web_client_id))
+                    .setServerClientId((apikey))
                     .build()
             )
             .setAutoSelectEnabled(true)
