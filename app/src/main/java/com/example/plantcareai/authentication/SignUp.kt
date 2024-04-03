@@ -1,5 +1,6 @@
 package com.example.plantcareai.authentication
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -20,8 +22,10 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -29,13 +33,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -47,11 +55,34 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.plantcareai.R
+import com.example.plantcareai.firebaseauth.SignInState
+import com.example.plantcareai.firebaseauth.SignUpViewModel
+import kotlinx.coroutines.launch
 
-@Preview
 @Composable
-fun SignUp() {
+fun SignUp(
+    state: SignInState,
+    onSignInClick: () -> Unit,
+    navController: NavHostController,
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
+    val state1 = viewModel.signUpState.collectAsState(initial = null)
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = state.signInError){
+        state.signInError?.let {error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     Column {
         Text(
             text = "Create your account",
@@ -65,18 +96,40 @@ fun SignUp() {
             ),
             modifier = Modifier.padding(top = 60.dp, start = 110.dp)
         )
+
         Spacer(modifier = Modifier.height(13.dp))
         NameInputScreen()
         Spacer(modifier = Modifier.height(27.dp))
-        Email1InputScreen()
-        Spacer(modifier = Modifier.height(27.dp))
-        PreviewPassword1TextField()
-        Spacer(modifier = Modifier.height(30.dp))
         RegisterButton()
         Spacer(modifier = Modifier.height(36.dp))
-        Google1LogIn()
+        Column(
+            modifier = Modifier.padding(horizontal = 40.dp)
+        ) {
+            OutlinedButton(
+                onClick = { onSignInClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.Unspecified
+                ),
+                modifier = Modifier
+                    .width(320.dp)
+                    .height(40.dp)
+
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.google),
+                    contentDescription = "Google Icon",
+                    tint = Color(0xFF5DB075),
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Register with Google", color = Color(0xFF5DB075))
+            }
+
+        }
         Spacer(modifier = Modifier.height(27.dp))
-        SignInPrompt()
+        SignInPrompt(navController = navController)
+
     }
 }
 
@@ -143,19 +196,6 @@ fun Email1InputBox(email: String, onEmailChange: (String) -> Unit) {
     )
 }
 
-@Composable
-fun Email1InputScreen() {
-    var email by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Email1InputBox(email = email, onEmailChange = { email = it })
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Password1TextField(
@@ -170,6 +210,7 @@ fun Password1TextField(
         value = password,
         onValueChange = { newPassword ->
             onPasswordChange(newPassword)
+//            showError = newPassword != confirmPassword // Update error state
         },
         label = { Text("Password", color = Color.Black) },
         textStyle = MaterialTheme.typography.bodySmall.copy(color = Color.Black),
@@ -191,7 +232,7 @@ fun Password1TextField(
         isError = showError // Set error state for password field
     )
 
-    if (showError) {
+    if (showError) { // Display error message conditionally
         Text(text = "Passwords don't match!", color = Color.Red)
     }
 }
@@ -240,10 +281,23 @@ fun ConfirmPasswordTextField(
 }
 
 @Composable
-fun PreviewPassword1TextField() {
+fun RegisterButton(
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
+    val scope = rememberCoroutineScope()
+    val state1 = viewModel.signUpState.collectAsState(initial = null)
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") } // Add confirm password state
+    var email by remember { mutableStateOf("") }
 
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Email1InputBox(email = email, onEmailChange = { email = it })
+    }
+    Spacer(modifier = Modifier.height(27.dp))
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -265,17 +319,16 @@ fun PreviewPassword1TextField() {
             password = password // Pass password state for comparison
         )
     }
-}
-
-
-@Composable
-fun RegisterButton(
-) {
+    Spacer(modifier = Modifier.height(30.dp))
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
     ) {
         Button(
-            onClick = { /**do this**/ },
+            onClick = {
+                scope.launch {
+                    viewModel.registerUser(email, password)
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF5DB075)
             ),
@@ -319,6 +372,26 @@ fun RegisterButton(
                     .background(color = Color(0xFF000000))
             )
         }
+        val context = LocalContext.current
+        if (state1.value?.isLoading == true){
+            CircularProgressIndicator()
+        }
+        LaunchedEffect(key1 = state1.value?.isSuccess ){
+            scope.launch {
+                if (state1.value?.isSuccess?.isNotEmpty() == true){
+                    val success = state1.value?.isSuccess
+                    Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        LaunchedEffect(key1 = state1.value?.isError ){
+            scope.launch {
+                if (state1.value?.isError?.isNotEmpty() == true){
+                    val error = state1.value?.isError
+                    Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
 }
@@ -326,33 +399,17 @@ fun RegisterButton(
 
 @Composable
 fun Google1LogIn() {
-    OutlinedButton(
-        onClick = { /* Handle login with Google action */ },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(8.dp),
-        border = ButtonDefaults.outlinedButtonBorder,
-        colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = Color.Transparent,
-            containerColor = Color.Transparent
-        )
+    Column(
+        modifier = Modifier.padding(horizontal = 40.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.google),
-                contentDescription = "Google Logo",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Log in with Google", color = Color(0xFF5DB075))
-        }
+
     }
+
 }
 
 @Composable
 fun SignInPrompt(
+    navController: NavHostController
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -369,7 +426,7 @@ fun SignInPrompt(
         Text(
             text = "Sign In",
             color = Color(0xFF5DB075),
-            modifier = Modifier.clickable { /**do this**/ }
+            modifier = Modifier.clickable { navController.navigate("Login") }
         )
     }
 }

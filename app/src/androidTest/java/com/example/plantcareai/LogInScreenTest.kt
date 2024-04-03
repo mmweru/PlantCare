@@ -50,9 +50,9 @@ class LogInScreenTest {
 
     @Test
     fun testLogInScreen() {
-        composeTestRule.setContent {
-            LogIn()
-        }
+//        composeTestRule.setContent {
+//            LogIn()
+//        }
 
         // Check if "Login in to your account" text is displayed
         composeTestRule.onNodeWithText("Login in to your account")

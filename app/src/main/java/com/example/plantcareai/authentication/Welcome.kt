@@ -63,7 +63,7 @@ fun TypingText(text: String, modifier: Modifier = Modifier) {
     LaunchedEffect(Unit) {
         text.forEachIndexed { index, _ ->
             launch {
-                delay((index + 1) * 100L)
+                delay((index + 1) * 40L)
                 typedText = text.take(index + 1)
                 if (index == text.length - 1) {
                     isTyping = false
@@ -96,7 +96,7 @@ fun ShowScreen() {
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(4500L) // Switch between screens every 5 seconds
+            delay(4200L) // Switch between screens every 5 seconds
             pageIndex = (pageIndex + 1) % images.size
         }
     }
@@ -163,9 +163,8 @@ fun PreviewShowScreen(navController: NavHostController){
     }
     LaunchedEffect(key1 = true){
         startAnimation = true
-        delay(10500)
-//        navController.popBackStack()
-//        navController.navigate("log_in")
+        delay(12600)
+        navController.navigate("SignUp")
     }
     MyApplicationTheme {
         ShowScreen()

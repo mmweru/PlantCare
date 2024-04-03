@@ -5,22 +5,22 @@
       <entry key="LogInScreenTest">
         <State />
       </entry>
+      <entry key="MainActivity">
+        <State />
+      </entry>
       <entry key="ShowScreenTest">
         <State />
       </entry>
       <entry key="ShowScreenTest (1)">
         <State />
       </entry>
-      <entry key="SignUp">
+      <entry key="Splash">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="testEmailInputBox_initialValue()">
-        <State />
-      </entry>
-      <entry key="testEmailInputBox_textChange()">
         <State />
       </entry>
     </value>

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -56,14 +58,17 @@ fun AnimatedSplash(navController: NavHostController){
 
 }
 
+@Preview
 @Composable
 fun Splash() {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize() .padding(top = 430.dp)
             .semantics { contentDescription = "Box" },
         contentAlignment = Alignment.Center
     ) {
         LogoText()
+    }
+    Box (modifier = Modifier.padding(bottom = 100.dp)){
         Lottie()
     }
 }
@@ -75,7 +80,7 @@ fun LogoText() {
             .width(393.dp)
             .height(361.dp)
             .background(color = Color(0xFF0D6446), shape = RoundedCornerShape(7.dp))
-            .padding(vertical = 430.dp)
+            .padding(bottom = 30.dp) .offset(y = 130.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -119,7 +124,7 @@ fun Lottie() {
         isPlaying.value = progress == 0f
     }
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize() .padding(bottom = 90.dp)
             .semantics { contentDescription = "LottieAnimation" }, // Set content description here
         contentAlignment = Alignment.Center
     ) {
@@ -127,7 +132,7 @@ fun Lottie() {
             modifier = Modifier.size(393.dp, 616.dp),
             composition = composition,
             alignment = Alignment.Center,
-            restartOnPlay = true
+            iterations = 1
         )
     }
 }

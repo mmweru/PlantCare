@@ -1,5 +1,6 @@
 package com.example.plantcareai.authentication
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -34,13 +36,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -55,11 +61,33 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.plantcareai.R
+import com.example.plantcareai.firebaseauth.SignInState
+import com.example.plantcareai.firebaseauth.SignInViewModel
+import kotlinx.coroutines.launch
 
-@Preview
 @Composable
-fun LogIn() {
+fun LogIn(
+    state: SignInState,
+    onSignInClick: () -> Unit,
+    navController: NavHostController,
+    viewModel: SignInViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val state1 = viewModel.signInState.collectAsState(initial = null)
+
+    LaunchedEffect(key1 = state.signInError){
+        state.signInError?.let {error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -76,21 +104,52 @@ fun LogIn() {
                 .padding(horizontal = 92.dp)
         )
 
-        EmailInputScreen()
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        PreviewPasswordTextField()
-
-        MyScreen()
-
-        Spacer(modifier = Modifier.height(42.dp))
 
         LogButton()
 
         Spacer(modifier = Modifier.height(42.dp))
 
-        GoogleLogIn()
+        OutlinedButton(
+            onClick = { onSignInClick() },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Unspecified
+            ),
+            modifier = Modifier
+                .width(320.dp)
+                .height(40.dp)
+                .background(color = Color.Transparent, shape = CutCornerShape(15.dp))
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.google),
+                contentDescription = "Google Icon",
+                tint = LocalContentColor.current,
+                modifier = Modifier.size(28.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Login with Google", color = Color(0xFF5DB075))
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "Don't have an account?",
+                fontSize = 14.sp
+            )
+            TextButton(onClick = {navController.navigate("Signup")}) {
+                Text(
+                    text = "Signup",
+                    fontSize = 14.sp,
+                    color = Color(0xFF5DB075)
+                )
+            }
+        }
+
+
 
     }
 }
@@ -108,7 +167,9 @@ fun EmailInputBox(email: String, onEmailChange: (String) -> Unit) {
             Icon(
                 imageVector = Icons.Outlined.AccountBox,
                 contentDescription = "Password Icon",
-                tint = Color(0xFF5DB075)
+                tint = Color(
+                    0xFF5DB075
+                )
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -116,24 +177,9 @@ fun EmailInputBox(email: String, onEmailChange: (String) -> Unit) {
             focusedBorderColor = Color.Black,
             unfocusedBorderColor = Color.Black
         ),
-        modifier = Modifier.fillMaxWidth(0.9f)  .testTag("MyEmail") // Add test tag here
-
+        modifier = Modifier.fillMaxWidth(0.9f)
 
     )
-}
-
-@Composable
-fun EmailInputScreen() {
-    var email by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        EmailInputBox(email = email, onEmailChange = { email = it })
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -164,21 +210,6 @@ fun PasswordTextField(password: String, onPasswordChange: (String) -> Unit) {
 }
 
 
-@Composable
-fun PreviewPasswordTextField() {
-    var password by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-//            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        PasswordTextField(password = password, onPasswordChange = { password = it })
-    }
-}
-
 
 @Composable
 fun RememberMeCheckbox(
@@ -202,8 +233,7 @@ fun RememberMeCheckbox(
                 checkedColor = Color(
                     0xFF5DB075
                 )
-            ),
-            modifier = Modifier.testTag("Check")
+            )
         )
         Text(
             text = "Remember me",
@@ -310,42 +340,66 @@ fun ForgotPasswordDialog(
     )
 }
 
-@Preview
-@Composable
-fun MyScreen() {
-    var rememberMeChecked by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) } // Track dialog visibility
-
-    RememberMeCheckbox(
-        onCheckedChange = { isChecked ->
-            rememberMeChecked = isChecked
-        },
-        onForgotPasswordClick = {
-            showDialog = true // Show the forgot password dialog
-        }
-    )
-
-    if (showDialog) {
-        ForgotPasswordDialog( // Show the dialog if visible
-            onClose = { showDialog = false }, // Hide dialog on close
-            onPasswordChanged = {},
-            onDismissRequest = { showDialog = false }, // Hide dialog on dismiss
-            onSavePassword = { newPassword, confirmPassword ->
-                // Implement password save logic here (e.g., validate and save)
-                showDialog = false // Hide dialog after save
-            }
-        )
-    }
-
-}
 
 @Composable
-fun LogButton() {
+fun LogButton(viewModel: SignInViewModel = hiltViewModel()) {
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
     ) {
+        var password by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        val context = LocalContext.current
+        val scope = rememberCoroutineScope()
+        val state1 = viewModel.signInState.collectAsState(initial = null)
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            EmailInputBox(email = email, onEmailChange = { email = it })
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+//            .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            PasswordTextField(password = password, onPasswordChange = { password = it })
+        }
+        var rememberMeChecked by remember { mutableStateOf(false) }
+        var showDialog by remember { mutableStateOf(false) } // Track dialog visibility
+
+        RememberMeCheckbox(
+            onCheckedChange = { isChecked ->
+                rememberMeChecked = isChecked
+            },
+            onForgotPasswordClick = {
+                showDialog = true // Show the forgot password dialog
+            }
+        )
+
+        if (showDialog) {
+            ForgotPasswordDialog( // Show the dialog if visible
+                onClose = { showDialog = false }, // Hide dialog on close
+                onPasswordChanged = {},
+                onDismissRequest = { showDialog = false }, // Hide dialog on dismiss
+                onSavePassword = { newPassword, confirmPassword ->
+                    // Implement password save logic here (e.g., validate and save)
+                    showDialog = false // Hide dialog after save
+                }
+            )
+        }
+        Spacer(modifier = Modifier.height(42.dp))
         Button(
-            onClick = { /**do this**/ },
+            onClick = {
+                scope.launch {
+                    viewModel.loginUser(email, password)
+                }
+            },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF5DB075)),
             modifier = Modifier
                 .fillMaxWidth()
@@ -391,52 +445,29 @@ fun LogButton() {
                     .height(1.dp)
                     .background(color = Color(0xFF000000))
             )
+
+            if (state1.value?.isLoading == true) {
+                CircularProgressIndicator()
+            }
         }
-    }
-}
 
-
-@Composable
-fun GoogleLogIn(
-) {
-    OutlinedButton(
-        onClick = { /* Handle login with Google action */ },
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
-        shape = RoundedCornerShape(8.dp),
-        border = ButtonDefaults.outlinedButtonBorder,
-        colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = Color.Transparent,
-            containerColor = Color.Transparent
-        )
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.google),
-                contentDescription = "Google Logo",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Log in with Google", color = Color(0xFF5DB075))
+        LaunchedEffect(key1 = state1.value?.isSuccess ){
+            scope.launch {
+                if (state1.value?.isSuccess?.isNotEmpty() == true){
+                    val success = state1.value?.isSuccess
+                    Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        LaunchedEffect(key1 = state1.value?.isError ){
+            scope.launch {
+                if (state1.value?.isError?.isNotEmpty() == true){
+                    val error = state1.value?.isError
+                    Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
-    Spacer(modifier = Modifier.height(24.dp))
 
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            "Don't have an account?",
-            fontSize = 14.sp
-        )
-        TextButton(onClick = {/**do this**/}) {
-            Text(
-                text = "Signup",
-                fontSize = 14.sp,
-                color = Color(0xFF5DB075)
-            )
-        }
-    }
 }
