@@ -79,7 +79,7 @@ fun LogoText() {
         modifier = Modifier
             .width(393.dp)
             .height(361.dp)
-            .background(color = Color(0xFF0D6446), shape = RoundedCornerShape(7.dp))
+            .background(color = Color(0xFF0D6446), shape = RoundedCornerShape(37.dp))
             .padding(bottom = 30.dp) .offset(y = 130.dp)
     ) {
         Column(
