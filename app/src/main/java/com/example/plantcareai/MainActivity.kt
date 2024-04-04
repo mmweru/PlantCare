@@ -29,6 +29,7 @@ import com.example.plantcareai.AiCamera.Camera
 import com.example.plantcareai.authentication.AnimatedSplash
 import com.example.plantcareai.authentication.LogIn
 import com.example.plantcareai.authentication.SignUp
+import com.example.plantcareai.dashboard.PlantSearchPage
 import com.example.plantcareai.firebaseauth.AuthRepositoryImpl
 import com.example.plantcareai.firebaseauth.GoogleAuthUiClient
 import com.example.plantcareai.firebaseauth.SignInViewModel
@@ -109,7 +110,7 @@ class MainActivity : ComponentActivity() {
 
                     LaunchedEffect(key1 = Unit) {
                         if (googleAuthUiClient.getSignedInUser() != null) {
-                            navController.navigate("camera")
+                            navController.navigate("home")
                         }
                     }
 
@@ -141,6 +142,9 @@ class MainActivity : ComponentActivity() {
                         },
                         navController = navController
                     )
+                }
+                composable("home"){
+                    PlantSearchPage(navController = navController)
                 }
                 composable("camera") {
                     if (!hasRequiredPermissions()) {

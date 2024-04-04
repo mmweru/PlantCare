@@ -121,6 +121,8 @@ dependencies {
     implementation ("androidx.compose.material:material:1.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
+    implementation ("androidx.compose.ui:ui:1.6.5")
+
 
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
 

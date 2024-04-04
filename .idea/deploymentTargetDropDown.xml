@@ -8,6 +8,9 @@
       <entry key="MainActivity">
         <State />
       </entry>
+      <entry key="PlantSearchPage">
+        <State />
+      </entry>
       <entry key="ShowScreenTest">
         <State />
       </entry>
@@ -18,9 +21,6 @@
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="testEmailInputBox_initialValue()">
         <State />
       </entry>
     </value>

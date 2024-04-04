@@ -2,11 +2,20 @@ package com.example.plantcareai.authentication
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.MaterialTheme
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -26,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -71,13 +81,13 @@ fun TypingText(text: String, modifier: Modifier = Modifier) {
             }
         }
     }
-    val myFont = FontFamily(Font(R.font.istok_bold_italic))
+    val myFont = FontFamily(Font(R.font.happy_monkey))
 
     Text(
         text = typedText,
         modifier = modifier,
-        color = Color.White,
-        fontSize = 26.sp,
+        color = Color(0xFF5DB075),
+        fontSize = 23.sp,
         textAlign = TextAlign.Center,
         fontFamily = myFont
     )
@@ -121,7 +131,7 @@ fun ShowScreen() {
         colors = colors,
         typography = typography
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
@@ -129,24 +139,22 @@ fun ShowScreen() {
                 painter = painterResource(id = images[pageIndex]),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxSize()
+
+                    .fillMaxHeight(0.7f)
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(18.dp))
                     .clip(MaterialTheme.shapes.medium),
                 contentScale = ContentScale.Crop
             )
+            Spacer(modifier = Modifier.height(120.dp))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+
                 when (pageIndex) {
                     0 -> TypingText(text = "Want your farm produce this fresh?")
                     1 -> TypingText(text = "Always puzzled about the disease your crop is suffering from?")
                     2 -> TypingText(text = "Get Started with PlantCare AI\u2028For disease prediction and hence healthier crops...")
                 }
-            }
+
         }
     }
 }
