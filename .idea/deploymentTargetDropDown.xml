@@ -2,10 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="LogInScreenTest">
+      <entry key="ApplePlant">
         <State />
       </entry>
       <entry key="MainActivity">
+        <State />
+      </entry>
+      <entry key="PlantDetailPage">
         <State />
       </entry>
       <entry key="PlantSearchPage">
@@ -17,7 +20,7 @@
       <entry key="ShowScreenTest (1)">
         <State />
       </entry>
-      <entry key="Splash">
+      <entry key="SwipeableCardRow">
         <State />
       </entry>
       <entry key="app">

@@ -126,9 +126,6 @@ dependencies {
 
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
 
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     androidTestImplementation("androidx.navigation:navigation-testing:2.4.1")

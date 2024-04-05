@@ -108,7 +108,7 @@ fun PlantSearchPage(navController: NavHostController) {
                     text = "PlantCare AI",
                     fontFamily = myfont,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp),
+                    modifier = Modifier.padding(horizontal = 50.dp, vertical = 10.dp),
                     color = Color(0xFF0D6446)
                 )
             },
@@ -118,7 +118,7 @@ fun PlantSearchPage(navController: NavHostController) {
                         drawerState.open()
                     }
                 }) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Open menu")
+                    Icon(Icons.Filled.Menu, contentDescription = "Open menu", tint = Color(0xFF0D6446))
                 }
             }
         )
@@ -151,7 +151,7 @@ fun PlantSearchPage(navController: NavHostController) {
                     )
 
                     // Card grid with filtered plants
-                    PlantCardGrid(plants = plantList.filter { it.name.contains(searchText, ignoreCase = true) })
+                    PlantCardGrid(plants = plantList.filter { it.name.contains(searchText, ignoreCase = true) }, navController = navController)
                 }
             }
         )
@@ -209,7 +209,7 @@ fun DrawerItem(text: String, onItemClick: (String) -> Unit) {
 }
 
 @Composable
-fun PlantCardGrid(plants: List<Plant>) {
+fun PlantCardGrid(plants: List<Plant>, navController: NavHostController) {
     val gridState = GridCells.Fixed(2) // Two columns
 
     Row(modifier = Modifier.fillMaxSize()) {
@@ -218,14 +218,14 @@ fun PlantCardGrid(plants: List<Plant>) {
             modifier = Modifier.weight(1f)
         ) {
             items(plants) { plant ->
-                PlantCard(plant = plant)
+                PlantCard(plant = plant, navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun PlantCard(plant: Plant) {
+fun PlantCard(plant: Plant, navController: NavHostController) {
     Card(
         modifier = Modifier
             .padding(12.dp)
@@ -233,8 +233,18 @@ fun PlantCard(plant: Plant) {
             .fillMaxWidth(0.45f)
             .fillMaxHeight(1f), // Adjust width as needed for 2 columns
         elevation = CardDefaults.cardElevation(8.dp),
-        colors = CardDefaults.cardColors(Color(0xFF0D6446))
-
+        colors = CardDefaults.cardColors(Color(0xFF0D6446)),
+        onClick = {
+            when (plant.name) {
+                "Apple" -> navController.navigate("apple")
+                "Peach" -> navController.navigate("peach")
+                "Maize" -> navController.navigate("maize")
+                "Grape" -> navController.navigate("grape")
+                "Cherry" -> navController.navigate("cherry")
+                "Blueberry" -> navController.navigate("blueberry")
+                else -> { /* Handle default case */ }
+            }
+        }
     ) {
         Column {
             Image(
@@ -250,11 +260,6 @@ fun PlantCard(plant: Plant) {
                 color = Color.White,
                 style = TextStyle(fontWeight = FontWeight.Bold)
             )
-            Row(horizontalArrangement = Arrangement.End) {
-                IconButton(onClick = { /* Open plant details page */ }) {
-                    Icon(Icons.Filled.YoutubeSearchedFor, contentDescription = "View details", tint = Color.White)
-                }
-            }
         }
     }
 }

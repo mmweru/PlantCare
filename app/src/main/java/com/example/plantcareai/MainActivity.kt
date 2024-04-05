@@ -29,6 +29,12 @@ import com.example.plantcareai.AiCamera.Camera
 import com.example.plantcareai.authentication.AnimatedSplash
 import com.example.plantcareai.authentication.LogIn
 import com.example.plantcareai.authentication.SignUp
+import com.example.plantcareai.dashboard.ApplePlant
+import com.example.plantcareai.dashboard.BlueBerryPlant
+import com.example.plantcareai.dashboard.CherryPlant
+import com.example.plantcareai.dashboard.GrapePlant
+import com.example.plantcareai.dashboard.MaizePlant
+import com.example.plantcareai.dashboard.PeachPlant
 import com.example.plantcareai.dashboard.PlantSearchPage
 import com.example.plantcareai.firebaseauth.AuthRepositoryImpl
 import com.example.plantcareai.firebaseauth.GoogleAuthUiClient
@@ -153,6 +159,24 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     Camera()
+                }
+                composable("apple"){
+                    ApplePlant(navController = navController)
+                }
+                composable("cherry"){
+                    CherryPlant(navController = navController)
+                }
+                composable("blueberry"){
+                    BlueBerryPlant(navController = navController)
+                }
+                composable("grape"){
+                    GrapePlant(navController = navController)
+                }
+                composable("maize"){
+                    MaizePlant(navController = navController)
+                }
+                composable("peach"){
+                    PeachPlant(navController = navController)
                 }
 
                 }
