@@ -26,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.plantcareai.AiCamera.Camera
+import com.example.plantcareai.AiCamera.History
 import com.example.plantcareai.authentication.AnimatedSplash
 import com.example.plantcareai.authentication.LogIn
 import com.example.plantcareai.authentication.SignUp
@@ -177,6 +178,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("peach"){
                     PeachPlant(navController = navController)
+                }
+                composable("history") {
+                    History()
                 }
 
                 }
