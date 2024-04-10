@@ -132,7 +132,7 @@ fun PlantSearchPage(navController: NavHostController) {
                         "Home" -> { navController.navigate("home") }
                         "Logout" -> { navController.navigate("Login") }
                         "About" -> { /* Handle About click */ }
-                        "History" -> { /* Handle History click */ }
+                        "History" -> { navController.navigate("history") }
                         "Camera" -> { navController.navigate("camera")}
                     }
                 }
