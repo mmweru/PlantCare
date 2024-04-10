@@ -6,6 +6,7 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -97,17 +98,28 @@ dependencies {
     implementation ("io.insert-koin:koin-android:3.2.0")
     implementation(libs.androidx.navigation.compose)
 
-//	implementation(libs.firebase.auth)
+
+    // Room
+    implementation("com.google.firebase:firebase-crashlytics-gradle:2.8.0")
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-paging:2.6.1")
+
+    // Paging 3.0
+    implementation("androidx.paging:paging-compose:1.0.0-alpha15")
+
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
-//    implementation(libs.tensorflow.lite.support)
-//    implementation(libs.tensorflow.lite.metadata)
-//    implementation(libs.tensorflow.lite.gpu)
+
     //Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     implementation("com.google.firebase:firebase-auth-ktx:19.3.0")
     implementation(libs.firebase.auth)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
 
     kapt ("com.google.dagger:hilt-android-compiler:2.48")
 
@@ -141,4 +153,7 @@ dependencies {
 }
 kapt {
     correctErrorTypes = true
+}
+hilt {
+    enableAggregatingTask = true
 }

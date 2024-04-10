@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PhotoBottomSheetContent(
     bitmap: Bitmap,
+    label: String,
     onDismiss: () -> Unit
 ) {
     Column(
@@ -34,6 +35,14 @@ fun PhotoBottomSheetContent(
         )
         Spacer(modifier = Modifier.padding(8.dp))
 
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Image is classified as:")
+            Text(text = label, fontSize = 20.sp)
+        }
 
         Spacer(modifier = Modifier.padding(8.dp))
 
@@ -41,5 +50,4 @@ fun PhotoBottomSheetContent(
             Text("Dismiss")
         }
     }
-
 }

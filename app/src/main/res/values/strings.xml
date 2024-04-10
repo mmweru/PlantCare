@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PlantCare AI</string>
+    <string name="confidence">%s%%</string>
+    <string name="brand">Plant Care</string>
 </resources>

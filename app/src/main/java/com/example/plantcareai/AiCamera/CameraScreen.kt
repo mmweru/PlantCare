@@ -53,16 +53,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.plantcareai.R
+import com.example.plantcareai.model.ClassifiedImage
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
 
 @ExperimentalMaterial3Api
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun Camera() {
+fun Camera(
+    viewModel: MainViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
     val controller = remember {
         LifecycleCameraController(context).apply {
@@ -87,7 +92,17 @@ fun Camera() {
                 val selectedBitmap = selectedUri.toBitmap(context.contentResolver)
                 selectedBitmap?.let { bitmap ->
                     // Use viewModel.onTakePhoto(bitmap) to handle the selected image
-                    viewModel.onTakePhoto(bitmap)
+                    val scaledBitmap = Bitmap.createScaledBitmap(
+                        selectedBitmap,
+                        TensorFLowHelper.IMAGESIZE,
+                        TensorFLowHelper.IMAGESIZE, false
+                    );
+
+                    TensorFLowHelper.classifyImage(scaledBitmap, context) {
+                        scope.launch {
+                            viewModel.onTakePhoto(it)
+                        }
+                    }
                 }
             }
         }
@@ -99,12 +114,9 @@ fun Camera() {
         sheetContent = {
             // PhotoBottomSheetContent( bitmaps = bitmaps, modifier = Modifier.fillMaxWidth())
             bitmap?.let {
-                PhotoBottomSheetContent(
-                    bitmap = it,
-                    onDismiss = {
-                        viewModel.onTakePhoto(null)
-                    }
-                )
+                PhotoBottomSheetContent(bitmap = it, label = viewModel.label.value) {
+                    viewModel.reset()
+                }
             }
         }
     ) { padding ->
@@ -215,7 +227,11 @@ fun Camera() {
                                 takePhoto(
                                     controller = controller,
                                     context = context,
-                                    onPhotoTaken = viewModel::onTakePhoto
+                                    onPhotoTaken = {
+                                        scope.launch {
+                                            viewModel.onTakePhoto(it)
+                                        }
+                                    }
                                 )
                             }
                         )
@@ -225,7 +241,11 @@ fun Camera() {
                             takePhoto(
                                 controller = controller,
                                 context = context,
-                                onPhotoTaken = viewModel::onTakePhoto
+                                onPhotoTaken = {
+                                    scope.launch {
+                                        viewModel.onTakePhoto(it)
+                                    }
+                                }
                             )
                         }
                     ) {
@@ -245,13 +265,14 @@ fun Camera() {
 private fun takePhoto(
     controller: LifecycleCameraController,
     context: Context,
-    onPhotoTaken: (Bitmap) -> Unit
+    onPhotoTaken: (ClassifiedImage) -> Unit
 ) {
     val cameraSelector = CameraSelector.Builder().build()
 
     controller.takePicture(
         ContextCompat.getMainExecutor(context),
         object : ImageCapture.OnImageCapturedCallback() {
+
             override fun onCaptureSuccess(image: ImageProxy) {
                 super.onCaptureSuccess(image)
 
@@ -267,7 +288,15 @@ private fun takePhoto(
                 Toast.makeText(context, "Photo captured successfully...🍏...🎉🎉", Toast.LENGTH_SHORT)
                     .show()
 
-                onPhotoTaken(rotatedBitmap)
+                val scaledBitmap = Bitmap.createScaledBitmap(
+                    rotatedBitmap,
+                    TensorFLowHelper.IMAGESIZE,
+                    TensorFLowHelper.IMAGESIZE, false
+                );
+
+                TensorFLowHelper.classifyImage(scaledBitmap, context) {
+                    onPhotoTaken(it)
+                }
             }
 
             override fun onError(exception: ImageCaptureException) {
