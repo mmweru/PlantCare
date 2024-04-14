@@ -2,10 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ApplePlant">
+      <entry key="AboutPage">
         <State />
       </entry>
       <entry key="Camera">
+        <State />
+      </entry>
+      <entry key="GlassMorphismScreen">
+        <State />
+      </entry>
+      <entry key="HomeScreen">
+        <State />
+      </entry>
+      <entry key="PreviewAboutPage">
         <State />
       </entry>
       <entry key="ShowScreenTest">
@@ -14,24 +23,8 @@
       <entry key="ShowScreenTest (1)">
         <State />
       </entry>
-      <entry key="SwipeableCardRow">
-        <State />
-      </entry>
       <entry key="app">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="RF8W70QBJMJ" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-10T14:17:15.465490Z" />
-        </State>
+        <State />
       </entry>
     </value>
   </component>

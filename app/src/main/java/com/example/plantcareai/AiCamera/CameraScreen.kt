@@ -47,6 +47,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -126,9 +127,12 @@ fun Camera(
                 .padding(padding)
         ) {
 
-            CameraPreview(
+            CustomCameraPreview(
                 controller = controller,
-                modifier = Modifier.size(200.dp, 200.dp) .padding() .offset(y = 240.dp, x = 90.dp) .background(color = Color.Transparent, shape = RoundedCornerShape(50.dp))
+                modifier = Modifier.size(160.dp, 300.dp)
+                    .padding()
+                    .offset(y = 240.dp, x = 105.dp)
+                    .background(color = Color.Transparent)
             )
 
             Box(

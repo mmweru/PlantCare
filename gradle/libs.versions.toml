@@ -20,6 +20,7 @@ tensorflowLiteSupport = "0.1.0"
 tensorflowLiteMetadata = "0.1.0"
 roomKtx = "2.6.1"
 firebaseCrashlyticsBuildtools = "2.9.9"
+tvMaterial = "1.0.0-alpha10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,7 @@ tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-su
 tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+androidx-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tvMaterial" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
