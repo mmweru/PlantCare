@@ -2,16 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AboutPage">
+      <entry key="AboutScreenTest">
         <State />
       </entry>
-      <entry key="AnimatedButtonsPage">
-        <State />
-      </entry>
-      <entry key="GlassMorphismScreen">
-        <State />
-      </entry>
-      <entry key="PreviewAboutPage">
+      <entry key="MainActivity">
         <State />
       </entry>
       <entry key="ShowScreenTest">
@@ -24,6 +18,12 @@
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="buttonClickNavigation()">
+        <State />
+      </entry>
+      <entry key="testYourScreen()">
         <State />
       </entry>
     </value>
