@@ -92,7 +92,9 @@ fun ApplePlant(navController: NavHostController){
             Text(text = "Apple Plant (Malus domestica)", fontFamily = myfont, fontSize = 24.sp, color = Color(0xFF0D5210), modifier = Modifier.offset(x = 4.dp))
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Apples, belonging to the rose family, Rosaceae, share lineage with cherries, raspberries, and almonds. Despite their variety, they are all known for their stunning flowers and diverse fruits. However, apple trees face challenges such as apple scab, powdery mildew, and fire blight. To combat these diseases, orchard management is key. Regular pruning enhances airflow and sunlight, reducing fungal risks. Sanitation, including the removal of infected plant material, prevents disease spread. Fungicides like copper-based treatments curb apple scab, while sulfur-based options combat powdery mildew. Choosing resistant apple varieties decreases reliance on chemicals. Additionally, monitoring weather conditions allows for timely adjustments in management practices. Employing these strategies effectively manages diseases, ensuring healthy apple tree growth and robust fruit production.",modifier = Modifier.offset(x = 4.dp),  fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.inter)))
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Other plants", fontFamily = myfont, color = Color(0xFF0D5210), modifier = Modifier.padding(horizontal = 10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             LazyRow(
                 modifier = Modifier.padding(horizontal = 5.dp)
 

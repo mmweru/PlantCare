@@ -130,8 +130,8 @@ fun PlantSearchPage(navController: NavHostController) {
                     // Handle click action based on the selected item
                     when (selectedItem) {
                         "Home" -> { navController.navigate("home") }
-                        "Logout" -> { navController.navigate("Login") }
-                        "About" -> { /* Handle About click */ }
+                        "Logout" -> { navController.navigate("SignUp") }
+                        "About" -> { navController.navigate("about") }
                         "History" -> { navController.navigate("history") }
                         "Camera" -> { navController.navigate("camera")}
                     }
@@ -176,13 +176,16 @@ fun PlantMenuDrawer(onItemClick: (String) -> Unit) {
     }
         Column {
             DrawerItem(text = "Home", onItemClick)
-            DrawerItem(text = "Logout", onItemClick)
             DrawerItem(text = "About", onItemClick)
             DrawerItem(text = "History", onItemClick)
             DrawerItem(text = "Camera", onItemClick)
+            Spacer(modifier = Modifier.height(200.dp))
+            DrawerItem(text = "Logout", onItemClick)
         }
     Box(
-        modifier = Modifier.fillMaxSize() .padding(top = 160.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 160.dp)
             .semantics { contentDescription = "LottieAnimation" }, // Set content description here
         contentAlignment = Alignment.Center
     ) {
@@ -197,12 +200,13 @@ fun PlantMenuDrawer(onItemClick: (String) -> Unit) {
 
 @Composable
 fun DrawerItem(text: String, onItemClick: (String) -> Unit) {
+    val myfont = FontFamily(Font(R.font.happy_monkey))
     Text(
         text = text,
         style = MaterialTheme.typography.body1,
         modifier = Modifier
             .padding(16.dp)
-            .clickable { onItemClick(text) }
+            .clickable { onItemClick(text) }, fontFamily = myfont, fontSize = 20.sp, color = Color(0xFF0D6446)
     )
 
 

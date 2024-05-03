@@ -5,13 +5,10 @@
       <entry key="AboutPage">
         <State />
       </entry>
-      <entry key="Camera">
+      <entry key="AnimatedButtonsPage">
         <State />
       </entry>
       <entry key="GlassMorphismScreen">
-        <State />
-      </entry>
-      <entry key="HomeScreen">
         <State />
       </entry>
       <entry key="PreviewAboutPage">
@@ -21,6 +18,9 @@
         <State />
       </entry>
       <entry key="ShowScreenTest (1)">
+        <State />
+      </entry>
+      <entry key="YourScreen">
         <State />
       </entry>
       <entry key="app">

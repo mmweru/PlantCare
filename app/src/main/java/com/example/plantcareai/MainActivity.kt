@@ -37,6 +37,7 @@ import com.example.plantcareai.dashboard.GrapePlant
 import com.example.plantcareai.dashboard.MaizePlant
 import com.example.plantcareai.dashboard.PeachPlant
 import com.example.plantcareai.dashboard.PlantSearchPage
+import com.example.plantcareai.dashboard.YourScreen
 import com.example.plantcareai.firebaseauth.AuthRepositoryImpl
 import com.example.plantcareai.firebaseauth.GoogleAuthUiClient
 import com.example.plantcareai.firebaseauth.SignInViewModel
@@ -181,6 +182,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("history") {
                     History()
+                }
+                composable("about") {
+                    YourScreen(navController = navController)
                 }
 
                 }

@@ -77,7 +77,9 @@ fun MaizePlant(navController: NavHostController){
                 Font(R.font.inter)
             )
             )
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Other plants", fontFamily = myfont, color = Color(0xFF0D5210), modifier = Modifier.padding(horizontal = 10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             LazyRow(
                 modifier = Modifier.padding(horizontal = 5.dp)
 
