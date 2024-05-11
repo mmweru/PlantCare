@@ -134,6 +134,7 @@ fun PlantSearchPage(navController: NavHostController) {
                         "About" -> { navController.navigate("about") }
                         "History" -> { navController.navigate("history") }
                         "Camera" -> { navController.navigate("camera")}
+                        "Market" -> { navController.navigate("market")}
                     }
                 }
             },
@@ -179,7 +180,8 @@ fun PlantMenuDrawer(onItemClick: (String) -> Unit) {
             DrawerItem(text = "About", onItemClick)
             DrawerItem(text = "History", onItemClick)
             DrawerItem(text = "Camera", onItemClick)
-            Spacer(modifier = Modifier.height(200.dp))
+            DrawerItem(text = "Market", onItemClick)
+            Spacer(modifier = Modifier.height(150.dp))
             DrawerItem(text = "Logout", onItemClick)
         }
     Box(

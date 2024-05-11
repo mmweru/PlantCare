@@ -27,9 +27,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.plantcareai.AiCamera.Camera
 import com.example.plantcareai.AiCamera.History
+import com.example.plantcareai.authentication.AnimatedMarket
 import com.example.plantcareai.authentication.AnimatedSplash
 import com.example.plantcareai.authentication.LogIn
 import com.example.plantcareai.authentication.SignUp
+import com.example.plantcareai.authentication.TripleImageScreen
 import com.example.plantcareai.dashboard.ApplePlant
 import com.example.plantcareai.dashboard.BlueBerryPlant
 import com.example.plantcareai.dashboard.CherryPlant
@@ -185,6 +187,12 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("about") {
                     YourScreen(navController = navController)
+                }
+                composable("market") {
+                    AnimatedMarket(navController = navController)
+                }
+                composable("shop") {
+                    TripleImageScreen(navController = navController)
                 }
 
                 }
