@@ -142,7 +142,7 @@ fun ShowScreen() {
 
                     .fillMaxHeight(0.7f)
                     .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(18.dp))
+                    .clip(shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
                     .clip(MaterialTheme.shapes.medium),
                 contentScale = ContentScale.Crop
             )
@@ -171,7 +171,7 @@ fun PreviewShowScreen(navController: NavHostController){
     }
     LaunchedEffect(key1 = true){
         startAnimation = true
-        delay(12600)
+        delay(12400)
         navController.navigate("SignUp")
     }
     MyApplicationTheme {
