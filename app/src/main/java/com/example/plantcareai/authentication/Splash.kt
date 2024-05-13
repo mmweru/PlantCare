@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -77,10 +78,10 @@ fun Splash() {
 fun LogoText() {
     Box(
         modifier = Modifier
-            .width(393.dp)
+            .fillMaxWidth()
             .height(361.dp)
             .background(color = Color(0xFF0D6446), shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-            .padding(bottom = 30.dp) .offset(y = 130.dp)
+            .padding(bottom = 0.dp) .offset(y = 130.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -124,7 +125,7 @@ fun Lottie() {
         isPlaying.value = progress == 0f
     }
     Box(
-        modifier = Modifier.fillMaxSize() .padding(bottom = 90.dp)
+        modifier = Modifier.fillMaxSize() .padding(bottom = 110.dp)
             .semantics { contentDescription = "LottieAnimation" }, // Set content description here
         contentAlignment = Alignment.Center
     ) {

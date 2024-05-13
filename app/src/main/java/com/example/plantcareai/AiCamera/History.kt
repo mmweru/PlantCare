@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
@@ -45,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.plantcareai.AiCamera.BitmapConverter.convertStringToBitmap
 import com.example.plantcareai.R
 import com.example.plantcareai.model.ClassifiedImage
@@ -52,7 +54,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun History(viewModel: MainViewModel = hiltViewModel()) {
+fun History(viewModel: MainViewModel = hiltViewModel(), navController: NavHostController) {
     val classifiedImages = viewModel.classifiedImages.collectAsState().value
     val textState = remember {
         mutableStateOf(TextFieldValue(""))
@@ -63,10 +65,14 @@ fun History(viewModel: MainViewModel = hiltViewModel()) {
     }
     val scope = rememberCoroutineScope()
 
+    IconButton(onClick = { navController.navigate("home") }) {
+        Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back", tint = Color(0xFF0D6446))
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 20.dp, horizontal = 12.dp)
+            .padding(vertical = 50.dp, horizontal = 12.dp)
     ) {
 
         SearchBar(state = textState)
@@ -182,10 +188,4 @@ fun SearchBar(state: MutableState<TextFieldValue>) {
             Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search Icon", tint = Color(0xFF0D6446))
         }
     )
-}
-
-@Preview
-@Composable
-fun HistoryPreview() {
-    History()
 }

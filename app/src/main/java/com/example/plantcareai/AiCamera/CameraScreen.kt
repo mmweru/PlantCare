@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Cameraswitch
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PhotoCamera
@@ -56,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.plantcareai.R
 import com.example.plantcareai.model.ClassifiedImage
@@ -64,10 +66,9 @@ import java.io.File
 import java.io.InputStream
 
 @ExperimentalMaterial3Api
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun Camera(
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel(), navController: NavHostController
 ) {
     val context = LocalContext.current
     val controller = remember {
@@ -131,14 +132,27 @@ fun Camera(
                 controller = controller,
                 modifier = Modifier.size(160.dp, 300.dp)
                     .padding()
-                    .offset(y = 240.dp, x = 105.dp)
+//                    .offset(y = 180.dp)
+                    .align(Alignment.Center)
                     .background(color = Color.Transparent)
             )
-
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .padding(horizontal = 24.dp, vertical = 16.dp)
+                    .size(48.dp)
+                    .background(Color.White, shape = CircleShape)
+            ){
+                IconButton(onClick = { navController.navigate("home") }) {
+                    Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back", tint = Color(0xFF0D5210))
+                }
+            }
+
+
+            Box(
+                contentAlignment = Alignment.BottomEnd,
+                modifier = Modifier
+                    .offset(x = 320.dp, y = 720.dp)
                     .size(48.dp)
                     .background(Color.White, shape = CircleShape)
                     .clickable( // Wrap Box with Clickable
@@ -186,7 +200,7 @@ fun Camera(
             ) {
                 Box(
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(top = 130.dp)
                         .size(48.dp)
                         .background(Color.White, shape = CircleShape)
                         .clickable(
@@ -222,9 +236,10 @@ fun Camera(
                 }
 
                 Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .padding(16.dp)
-                        .size(48.dp)
+                        .padding(bottom = 130.dp, end = 150.dp)
+                        .size(68.dp)
                         .background(Color.White, shape = CircleShape)
                         .clickable(
                             onClick = {
@@ -256,7 +271,8 @@ fun Camera(
                         Icon(
                             imageVector = Icons.Outlined.PhotoCamera,
                             contentDescription = "Take Photo",
-                            tint = Color(0xFF0C3A0E)
+                            tint = Color(0xFF0C3A0E),
+                            modifier = Modifier.size(40.dp)
                         )
                     }
                 }

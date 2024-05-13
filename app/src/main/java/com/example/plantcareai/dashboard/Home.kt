@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -62,6 +63,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -135,6 +137,7 @@ fun PlantSearchPage(navController: NavHostController) {
                         "History" -> { navController.navigate("history") }
                         "Camera" -> { navController.navigate("camera")}
                         "Market" -> { navController.navigate("market")}
+                        "Chat" -> { navController.navigate("bot")}
                     }
                 }
             },
@@ -165,9 +168,7 @@ fun PlantMenuDrawer(onItemClick: (String) -> Unit) {
     val composition by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(R.raw.menu)
     )
-    val isPlaying = remember {
-        mutableStateOf(true)
-    }
+    val isPlaying = remember { mutableStateOf(true) }
     val progress by animateLottieCompositionAsState(
         composition = composition,
         isPlaying = isPlaying.value
@@ -175,28 +176,39 @@ fun PlantMenuDrawer(onItemClick: (String) -> Unit) {
     LaunchedEffect(progress) {
         isPlaying.value = progress == 0f
     }
+
+    Box(modifier = Modifier.fillMaxHeight()) {
+        Image(
+            painter = painterResource(id = R.drawable.platin),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+
         Column {
             DrawerItem(text = "Home", onItemClick)
             DrawerItem(text = "About", onItemClick)
             DrawerItem(text = "History", onItemClick)
             DrawerItem(text = "Camera", onItemClick)
             DrawerItem(text = "Market", onItemClick)
+            DrawerItem(text = "Chat", onItemClick)
             Spacer(modifier = Modifier.height(150.dp))
             DrawerItem(text = "Logout", onItemClick)
         }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 160.dp)
-            .semantics { contentDescription = "LottieAnimation" }, // Set content description here
-        contentAlignment = Alignment.Center
-    ) {
-        LottieAnimation(
-            modifier = Modifier.fillMaxSize(),
-            composition = composition,
-            alignment = Alignment.Center,
-            iterations = 10
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 450.dp)
+                .semantics { contentDescription = "LottieAnimation" }, // Set content description here
+            contentAlignment = Alignment.Center
+        ) {
+            LottieAnimation(
+                modifier = Modifier.fillMaxSize(),
+                composition = composition,
+                alignment = Alignment.Center,
+                iterations = 10
+            )
+        }
     }
 }
 
@@ -207,12 +219,15 @@ fun DrawerItem(text: String, onItemClick: (String) -> Unit) {
         text = text,
         style = MaterialTheme.typography.body1,
         modifier = Modifier
-            .padding(16.dp)
-            .clickable { onItemClick(text) }, fontFamily = myfont, fontSize = 20.sp, color = Color(0xFF0D6446)
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .clickable { onItemClick(text) },
+        fontFamily = myfont,
+        fontSize = 20.sp,
+        color = Color.White
     )
-
-
 }
+
+
 
 @Composable
 fun PlantCardGrid(plants: List<Plant>, navController: NavHostController) {
