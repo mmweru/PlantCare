@@ -26,7 +26,8 @@ fun CustomCameraPreview(
     val cameraShape = CutCornerShape(16.dp) // Example: Cut corner shape
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
         Image(
             painter = rememberImagePainter(R.drawable.plant),

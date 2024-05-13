@@ -132,9 +132,15 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation ("androidx.compose.material:material:1.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
     implementation ("androidx.compose.ui:ui:1.6.5")
+
+
+    //ChatBot
+    implementation("com.google.ai.client.generativeai:generativeai:0.5.0")
 
 
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
