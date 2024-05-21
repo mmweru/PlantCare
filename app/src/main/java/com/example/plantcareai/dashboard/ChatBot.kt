@@ -64,11 +64,11 @@ fun UserChatItem(prompt: String, bitmap: Bitmap?){
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.primary)
+                .background(Color(0xFF0D6446))
                 .padding(16.dp),
             text = prompt,
             fontSize = 17.sp,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = Color(0x830C0C0C)
         )
     }
 }
@@ -82,11 +82,11 @@ fun ModelChatItem(response: String){
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.tertiary)
+                .background(Color(0xFF34EEAE))
                 .padding(16.dp),
             text = response,
             fontSize = 17.sp,
-            color = MaterialTheme.colorScheme.onTertiary
+            color = Color(0xFF050505)
         )
     }
 }

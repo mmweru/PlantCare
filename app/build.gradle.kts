@@ -7,6 +7,8 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
 }
 
 android {
@@ -85,6 +87,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     //	implementation(libs.androidx.material3)
     implementation("androidx.compose.material3:material3")
     implementation("io.coil-kt:coil-compose:2.6.0")
@@ -93,7 +96,6 @@ dependencies {
     //Lottie
     implementation("com.airbnb.android:lottie-compose:6.0.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation ("io.insert-koin:koin-core:3.2.0")// or latest version
     implementation ("io.insert-koin:koin-android:3.2.0")
     implementation(libs.androidx.navigation.compose)
@@ -132,11 +134,15 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation ("androidx.compose.material:material:1.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation ("androidx.compose.ui:ui:1.6.5")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
-    implementation ("androidx.compose.ui:ui:1.6.5")
+
+    //Google Services & Maps
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.maps.android:maps-compose:4.4.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
 
     //ChatBot

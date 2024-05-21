@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material.DrawerValue
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -82,6 +84,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.plantcareai.R
+import com.example.plantcareai.ui.theme.PlantCareAITheme
 import kotlinx.coroutines.launch
 
 
@@ -102,64 +105,88 @@ fun PlantSearchPage(navController: NavHostController) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        val myfont = FontFamily(Font(R.font.happy_monkey))
-        TopAppBar(
-            title = {
-                Text(
-                    text = "PlantCare AI",
-                    fontFamily = myfont,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(horizontal = 50.dp, vertical = 10.dp),
-                    color = Color(0xFF0D6446)
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = {
-                    coroutineScope.launch {
-                        drawerState.open()
-                    }
-                }) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Open menu", tint = Color(0xFF0D6446))
-                }
-            }
-        )
-
-        ModalDrawer(
-            drawerState = drawerState,
-            drawerContent = {
-                PlantMenuDrawer { selectedItem ->
-                    // Handle click action based on the selected item
-                    when (selectedItem) {
-                        "Home" -> { navController.navigate("home") }
-                        "Logout" -> { navController.navigate("SignUp") }
-                        "About" -> { navController.navigate("about") }
-                        "History" -> { navController.navigate("history") }
-                        "Camera" -> { navController.navigate("camera")}
-                        "Market" -> { navController.navigate("market")}
-                        "Chat" -> { navController.navigate("bot")}
-                    }
-                }
-            },
-            content = {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    OutlinedTextField(
-                        value = searchText,
-                        onValueChange = { searchText = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        placeholder = { Text("Search plants...", color = Color(0xFF0D6446)) },
-                        textStyle = TextStyle(color = Color.Black),
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+        Column(modifier = Modifier.fillMaxSize()) {
+            val myfont = FontFamily(Font(R.font.happy_monkey))
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "PlantCare AI",
+                        fontFamily = myfont,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(horizontal = 50.dp, vertical = 10.dp),
+                        color = Color(0xFF0D6446)
                     )
-
-                    // Card grid with filtered plants
-                    PlantCardGrid(plants = plantList.filter { it.name.contains(searchText, ignoreCase = true) }, navController = navController)
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            drawerState.open()
+                        }
+                    }) {
+                        Icon(Icons.Filled.Menu, contentDescription = "Open menu", tint = Color(0xFF0D6446))
+                    }
                 }
-            }
-        )
-    }
+            )
+
+            ModalDrawer(
+                drawerState = drawerState,
+                drawerContent = {
+                    PlantMenuDrawer { selectedItem ->
+                        // Handle click action based on the selected item
+                        when (selectedItem) {
+                            "Home" -> { navController.navigate("home") }
+                            "Logout" -> { navController.navigate("SignUp") }
+                            "About" -> { navController.navigate("about") }
+                            "History" -> { navController.navigate("history") }
+                            "Camera" -> { navController.navigate("camera")}
+                            "Market" -> { navController.navigate("market")}
+                            "Chat" -> { navController.navigate("bot")}
+                        }
+                    }
+                },
+                content = {
+                    PlantCareAITheme(darkTheme = isSystemInDarkTheme()) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            // Inside your Column composable
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Search, // Use the search icon from Material Icons
+                                    contentDescription = "Search Icon",
+                                    modifier = Modifier.padding(8.dp),
+                                    tint = Color(0xFF0D6446)
+                                )
+                                OutlinedTextField(
+                                    value = searchText,
+                                    onValueChange = { searchText = it },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
+                                    placeholder = {
+                                        Text(
+                                            "Search plants...",
+                                            color = Color(0xFF0D6446)
+                                        )
+                                    },
+                                    textStyle = TextStyle(color = Color.Black),
+                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+                                )
+                            }
+
+                            // Card grid with filtered plants
+                            PlantCardGrid(plants = plantList.filter {
+                                it.name.contains(
+                                    searchText,
+                                    ignoreCase = true
+                                )
+                            }, navController = navController)
+                        }
+                    }
+                }
+            )
+        }
 }
 
 

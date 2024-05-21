@@ -36,11 +36,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -52,11 +54,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -68,6 +72,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -98,6 +103,7 @@ import com.example.plantcareai.firebaseauth.AuthRepositoryImpl
 import com.example.plantcareai.firebaseauth.GoogleAuthUiClient
 import com.example.plantcareai.firebaseauth.SignInViewModel
 import com.example.plantcareai.profile.ProfileScreen
+import com.example.plantcareai.ui.theme.PlantCareAITheme
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -131,143 +137,146 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            //Implementation of the navigation graph
-            val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "splash_screen") {
-                composable("splash_screen") {
-                    AnimatedSplash(navController = navController)
+            PlantCareAITheme {
+                //Implementation of the navigation graph
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "splash_screen") {
+                    composable("splash_screen") {
+                        AnimatedSplash(navController = navController)
 
-                }
-                composable("welcome") {
-                    PreviewShowScreen(navController = navController)
-                }
-                composable("SignUp"){
-                    val viewModel: SignInViewModel by viewModels()
-
-                    val state by viewModel.state.collectAsStateWithLifecycle()
-                    LaunchedEffect(key1 = Unit){
-                        if(googleAuthUiClient.getSignedInUser() != null){
-                            navController.navigate("Login")
-                        }
                     }
+                    composable("welcome") {
+                        PreviewShowScreen(navController = navController)
+                    }
+                    composable("SignUp") {
+                        val viewModel: SignInViewModel by viewModels()
+
+                        val state by viewModel.state.collectAsStateWithLifecycle()
+                        LaunchedEffect(key1 = Unit) {
+                            if (googleAuthUiClient.getSignedInUser() != null) {
+                                navController.navigate("Login")
+                            }
+                        }
 
 
-                    val launcher = rememberLauncherForActivityResult(
-                        contract = ActivityResultContracts.StartIntentSenderForResult(), onResult = {
-                                result ->
-                            if(result.resultCode == RESULT_OK){
-                                lifecycleScope.launch {
-                                    val signInResult = googleAuthUiClient.signInWithIntent(
-                                        intent = result.data ?: return@launch
-                                    )
-                                    viewModel.onSignInResult(signInResult)
+                        val launcher = rememberLauncherForActivityResult(
+                            contract = ActivityResultContracts.StartIntentSenderForResult(),
+                            onResult = { result ->
+                                if (result.resultCode == RESULT_OK) {
+                                    lifecycleScope.launch {
+                                        val signInResult = googleAuthUiClient.signInWithIntent(
+                                            intent = result.data ?: return@launch
+                                        )
+                                        viewModel.onSignInResult(signInResult)
+                                    }
                                 }
                             }
-                        }
-                    )
-                    SignUp(
-                        state = state,
-                        onSignInClick = {
-                            lifecycleScope.launch {
-                                val signInIntentSender = googleAuthUiClient.signIn()
-                                launcher.launch(
-                                    IntentSenderRequest.Builder(
-                                        signInIntentSender ?: return@launch
-                                    ).build()
-                                )
-
-                            }
-                        },
-                        navController = navController
-                    )
-                }
-                composable(route = "Login") {
-                    val viewModel: SignInViewModel by viewModels()
-                    val state by viewModel.state.collectAsStateWithLifecycle()
-
-                    LaunchedEffect(key1 = Unit) {
-                        if (googleAuthUiClient.getSignedInUser() != null) {
-                            navController.navigate("home")
-                        }
-                    }
-
-                    val launcher = rememberLauncherForActivityResult(
-                        contract = ActivityResultContracts.StartIntentSenderForResult(),
-                        onResult = { result ->
-                            if (result.resultCode == RESULT_OK) {
+                        )
+                        SignUp(
+                            state = state,
+                            onSignInClick = {
                                 lifecycleScope.launch {
-                                    val signInResult = googleAuthUiClient.signInWithIntent(
-                                        intent = result.data ?: return@launch
+                                    val signInIntentSender = googleAuthUiClient.signIn()
+                                    launcher.launch(
+                                        IntentSenderRequest.Builder(
+                                            signInIntentSender ?: return@launch
+                                        ).build()
                                     )
-                                    viewModel.onSignInResult(signInResult)
-                                }
-                            }
-                        }
-                    )
 
-                    LogIn(
-                        state = state,
-                        onSignInClick = {
-                            lifecycleScope.launch {
-                                val signInIntentSender = googleAuthUiClient.signIn()
-                                launcher.launch(
-                                    IntentSenderRequest.Builder(
-                                        signInIntentSender ?: return@launch
-                                    ).build()
-                                )
-                            }
-                        },
-                        navController = navController
-                    )
-                }
-                composable("home"){
-                    PlantSearchPage(navController = navController)
-                }
-                composable("camera") {
-                    if (!hasRequiredPermissions()) {
-                        ActivityCompat.requestPermissions(
-                            this@MainActivity, CAMERAX_PERMISSIONS, 0
+                                }
+                            },
+                            navController = navController
                         )
                     }
-                    Camera(navController = navController)
-                }
-                composable("apple"){
-                    ApplePlant(navController = navController)
-                }
-                composable("cherry"){
-                    CherryPlant(navController = navController)
-                }
-                composable("blueberry"){
-                    BlueBerryPlant(navController = navController)
-                }
-                composable("grape"){
-                    GrapePlant(navController = navController)
-                }
-                composable("maize"){
-                    MaizePlant(navController = navController)
-                }
-                composable("peach"){
-                    PeachPlant(navController = navController)
-                }
-                composable("history") {
-                    History(navController = navController)
-                }
-                composable("about") {
-                    YourScreen(navController = navController)
-                }
-                composable("market") {
-                    AnimatedMarket(navController = navController)
-                }
-                composable("shop") {
-                    TripleImageScreen(navController = navController)
-                }
-                composable("bot") {
-                    MyChat()
-                }
+                    composable(route = "Login") {
+                        val viewModel: SignInViewModel by viewModels()
+                        val state by viewModel.state.collectAsStateWithLifecycle()
 
-                }
+                        LaunchedEffect(key1 = Unit) {
+                            if (googleAuthUiClient.getSignedInUser() != null) {
+                                navController.navigate("home")
+                            }
+                        }
 
+                        val launcher = rememberLauncherForActivityResult(
+                            contract = ActivityResultContracts.StartIntentSenderForResult(),
+                            onResult = { result ->
+                                if (result.resultCode == RESULT_OK) {
+                                    lifecycleScope.launch {
+                                        val signInResult = googleAuthUiClient.signInWithIntent(
+                                            intent = result.data ?: return@launch
+                                        )
+                                        viewModel.onSignInResult(signInResult)
+                                    }
+                                }
+                            }
+                        )
+
+                        LogIn(
+                            state = state,
+                            onSignInClick = {
+                                lifecycleScope.launch {
+                                    val signInIntentSender = googleAuthUiClient.signIn()
+                                    launcher.launch(
+                                        IntentSenderRequest.Builder(
+                                            signInIntentSender ?: return@launch
+                                        ).build()
+                                    )
+                                }
+                            },
+                            navController = navController
+                        )
+                    }
+                    composable("home") {
+                        PlantSearchPage(navController = navController)
+                    }
+                    composable("camera") {
+                        if (!hasRequiredPermissions()) {
+                            ActivityCompat.requestPermissions(
+                                this@MainActivity, CAMERAX_PERMISSIONS, 0
+                            )
+                        }
+                        Camera(navController = navController)
+                    }
+
+                    composable("apple") {
+                        ApplePlant(navController = navController)
+                    }
+                    composable("cherry") {
+                        CherryPlant(navController = navController)
+                    }
+                    composable("blueberry") {
+                        BlueBerryPlant(navController = navController)
+                    }
+                    composable("grape") {
+                        GrapePlant(navController = navController)
+                    }
+                    composable("maize") {
+                        MaizePlant(navController = navController)
+                    }
+                    composable("peach") {
+                        PeachPlant(navController = navController)
+                    }
+                    composable("history") {
+                        History(navController = navController)
+                    }
+                    composable("about") {
+                        YourScreen(navController = navController)
+                    }
+                    composable("market") {
+                        AnimatedMarket(navController = navController)
+                    }
+                    composable("shop") {
+                        TripleImageScreen(navController = navController)
+                    }
+                    composable("bot") {
+                        MyChat(navController = navController)
+                    }
+                }
             }
+
+                }
+
 
         }
     private fun hasRequiredPermissions(): Boolean {
@@ -284,8 +293,11 @@ class MainActivity : ComponentActivity() {
         )
     }
     @Composable
-    fun MyChat(){
+    fun MyChat(navController: NavHostController) {
+
         val myfont = FontFamily(Font(R.font.happy_monkey))
+        val backgroundImage = painterResource(id = R.drawable.oxalis)
+
         Scaffold(
             topBar = {
                 Box(
@@ -294,9 +306,16 @@ class MainActivity : ComponentActivity() {
                         .background(Color(0xFF0D6446))
                         .height(55.dp)
                         .padding(horizontal = 16.dp)
-                ){
+                ) {
+                    IconButton(onClick = { navController.navigate("home")}) {
+                        Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back", tint = Color.White)
+                    }
+                    Spacer(modifier = Modifier.width(40.dp))
+
                     Text(
-                        modifier = Modifier.align(Alignment.CenterStart),
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(horizontal = 100.dp),
                         text = "Plancare Bot",
                         fontSize = 19.sp,
                         color = Color.White,
@@ -305,9 +324,21 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-        ){
-            ChatScreen(paddingValues = it)
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Image(
+                    painter = backgroundImage,
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .alpha(0.65f)
+                )
 
+                ChatScreen(paddingValues = it)
+            }
         }
     }
     @Composable
@@ -360,18 +391,18 @@ class MainActivity : ComponentActivity() {
                     }
                     Icon(
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(20.dp)
                             .clickable {
-                               imagePicker.launch (
-                                   PickVisualMediaRequest
-                                       .Builder()
-                                       .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                       .build()
-                               )
+                                imagePicker.launch(
+                                    PickVisualMediaRequest
+                                        .Builder()
+                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                        .build()
+                                )
                             },
                         imageVector = Icons.Outlined.AddPhotoAlternate,
                         contentDescription = "Add Photo",
-                        tint = Color(0xFF0D6446)
+                        tint = Color.White
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
@@ -392,14 +423,14 @@ class MainActivity : ComponentActivity() {
 
                 Icon(
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(20.dp)
                         .clickable {
                             chatViewModel.onEvent(ChatUiEvent.SendPrompt(chatState.prompt, bitmap))
                             uriState.update { "" }
                         },
                     imageVector = Icons.Outlined.Send,
                     contentDescription = "Send Button",
-                    tint = Color(0xFF0D6446)
+                    tint = Color.White
                 )
             }
         }
